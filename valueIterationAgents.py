@@ -84,7 +84,8 @@ class ValueIterationAgent(ValueEstimationAgent):
         for t in transitions:
             nextState, prob = t[0], t[1]
             reward = self.mdp.getReward(state, action, nextState)
-            result += prob * (reward + self.discount * self.values[nextState])
+            result += prob * (reward + self.discount * self.getValue(nextState))
+
         return result
 
     def computeActionFromValues(self, state):
@@ -99,7 +100,7 @@ class ValueIterationAgent(ValueEstimationAgent):
         "*** YOUR CODE HERE ***"
         if self.mdp.isTerminal(state):
             return None
-        return self.values.argMax
+        return self.values.argMax()
         
     def getPolicy(self, state):
         return self.computeActionFromValues(state)
