@@ -23,9 +23,9 @@ def question2a():
     """
       Prefer the close exit (+1), risking the cliff (-10).
     """
-    answerDiscount = 0.1
+    answerDiscount = 1
     answerNoise = 0
-    answerLivingReward = 3
+    answerLivingReward = -5
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
