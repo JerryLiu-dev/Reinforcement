@@ -97,8 +97,10 @@ class ValueIterationAgent(ValueEstimationAgent):
           terminal state, you should return None.
         """
         "*** YOUR CODE HERE ***"
+        if self.mdp.isTerminal(state):
+            return None
+        return self.values.argMax
         
-
     def getPolicy(self, state):
         return self.computeActionFromValues(state)
 
