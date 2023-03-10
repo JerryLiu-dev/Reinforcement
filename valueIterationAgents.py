@@ -65,7 +65,13 @@ class ValueIterationAgent(ValueEstimationAgent):
           value iteration, V_k+1(...) depends on V_k(...)'s.
         """
         "*** YOUR CODE HERE ***"
-        
+        # initializing
+        for k in range(self.iterations+1):
+            if k == 0:
+                continue
+            for state in self.mdp.getStates():
+                action = self.computeActionFromValues(state) 
+                # self.values[state] = self.computeQValueFromValues(state,action)
 
     def getValue(self, state):
         """
@@ -97,13 +103,14 @@ class ValueIterationAgent(ValueEstimationAgent):
           terminal state, you should return None.
         """
         "*** YOUR CODE HERE ***"
+
         if self.mdp.isTerminal(state):
             return None
-        bes = self.values.get(state,0)
+        bes = float('-inf')
         res = ''
         for action in self.mdp.getPossibleActions(state):
             qval = self.computeQValueFromValues(state,action)
-            if qval > bes:
+            if qval >= bes:
                 bes = qval
                 res = action
         self.values[state] = max(self.values.get(state,0),bes)
