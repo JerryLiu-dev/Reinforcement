@@ -99,7 +99,15 @@ class ValueIterationAgent(ValueEstimationAgent):
         "*** YOUR CODE HERE ***"
         if self.mdp.isTerminal(state):
             return None
-        return self.values.argMax()
+        bes = self.values.get(state,0)
+        res = ''
+        for action in self.mdp.getPossibleActions(state):
+            qval = self.computeQValueFromValues(state,action)
+            if qval > bes:
+                bes = qval
+                res = action
+        self.values[state] = max(self.values.get(state,0),bes)
+        return res
         
     def getPolicy(self, state):
         return self.computeActionFromValues(state)
