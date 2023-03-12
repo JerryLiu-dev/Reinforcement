@@ -84,9 +84,14 @@ class QLearningAgent(ReinforcementAgent):
         if not legalActions:
           return None
         
-
-        
-
+        best = (float('-inf'), "") # value , action
+        for action in legalActions: 
+          qvalue = self.getQValue(state, action)
+          if qvalue == best[0] and best[1]:
+            best = random.choice([(qvalue, action), best])
+          elif qvalue > best[0]:
+            best = (qvalue, action)
+        return best[1]
 
     def getAction(self, state):
         """
@@ -115,9 +120,12 @@ class QLearningAgent(ReinforcementAgent):
           it will be called on your behalf
         """
         "*** YOUR CODE HERE ***"
-        bestAction = self.computeActionFromQValues(state)
-        qvalue = self.computeValueFromQValues(nextState)
-        sample = reward + self.discount * qvalue 
+        # bestAction = self.computeActionFromQValues(nextState)
+        nextQValue = self.computeValueFromQValues(nextState)
+        sample = reward + self.discount * nextQValue 
+
+        QValue = (1 - self.alpha) * self.getQValue(state,action) + self.alpha * sample
+        self.qvalues[state, action] = QValue
 
     def getPolicy(self, state):
         return self.computeActionFromQValues(state)
